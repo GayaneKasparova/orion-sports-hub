@@ -108,8 +108,8 @@ const About = () => {
               className="text-center group animate-scale-in"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/20 rounded-full mb-4 group-hover:bg-primary/30 group-hover:scale-110 transition-bounce">
-                <value.icon className="h-8 w-8 text-primary" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-purple/20 rounded-full mb-4 group-hover:bg-purple/30 group-hover:scale-110 transition-bounce">
+                <value.icon className="h-8 w-8 text-purple" />
               </div>
               <h4 className="text-lg font-semibold text-foreground mb-2">{value.title}</h4>
               <p className="text-muted-foreground text-sm">{value.description}</p>

@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Star, Award, Users } from "lucide-react";
 import trainerHero from "@/assets/trainer-hero.jpg";
 
@@ -121,9 +122,9 @@ const Trainers = () => {
               Book a consultation with one of our certified trainers and create a 
               personalized fitness plan that works for you.
             </p>
-            <button className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-smooth shadow-glow hover:shadow-glow/80">
+            <Button variant="purple" size="lg">
               Schedule Consultation
-            </button>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,9 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Dumbbell, Heart, Trophy, Users } from "lucide-react";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 import boxingArea from "@/assets/boxing-area.jpg";
 import yogaStudio from "@/assets/yoga-studio.jpg";
 
 const About = () => {
+  const headerAnimation = useScrollAnimation();
+  const facilitiesAnimation = useStaggeredAnimation(3, 0.2);
+  const valuesAnimation = useStaggeredAnimation(4, 0.1);
+
   const facilities = [
     {
       title: "Main Gym",
@@ -52,7 +57,14 @@ const About = () => {
     <section id="about" className="py-20 bg-gradient-dark">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in">
+        <div 
+          ref={headerAnimation.ref as React.RefObject<HTMLDivElement>}
+          className={`text-center mb-16 transition-all duration-1000 ${
+            headerAnimation.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="text-foreground">About </span>
             <span className="text-primary">Orion Sports Club</span>
@@ -64,12 +76,18 @@ const About = () => {
         </div>
 
         {/* Facilities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div 
+          ref={facilitiesAnimation.ref as React.RefObject<HTMLDivElement>}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
+        >
           {facilities.map((facility, index) => (
             <Card 
               key={facility.title} 
-              className="group bg-card/50 backdrop-blur-sm border-border hover:border-primary/50 transition-smooth hover:shadow-glow/20 hover:shadow-2xl overflow-hidden animate-slide-up"
-              style={{ animationDelay: `${index * 0.2}s` }}
+              className={`group bg-card/50 backdrop-blur-sm border-border hover:border-primary/50 transition-all duration-700 hover:shadow-glow/20 hover:shadow-2xl overflow-hidden ${
+                facilitiesAnimation.visibleItems.has(index)
+                  ? 'opacity-100 translate-y-0 scale-100' 
+                  : 'opacity-0 translate-y-10 scale-95'
+              }`}
             >
               <div className="relative overflow-hidden">
                 <img
@@ -101,12 +119,18 @@ const About = () => {
           <h3 className="text-3xl font-bold text-foreground mb-6">Our Core Values</h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div 
+          ref={valuesAnimation.ref as React.RefObject<HTMLDivElement>}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {values.map((value, index) => (
             <div 
               key={value.title}
-              className="text-center group animate-scale-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className={`text-center group transition-all duration-700 ${
+                valuesAnimation.visibleItems.has(index)
+                  ? 'opacity-100 translate-y-0 scale-100' 
+                  : 'opacity-0 translate-y-8 scale-95'
+              }`}
             >
               <div className="inline-flex items-center justify-center w-16 h-16 bg-purple/20 rounded-full mb-4 group-hover:bg-purple/30 group-hover:scale-110 transition-bounce">
                 <value.icon className="h-8 w-8 text-purple" />

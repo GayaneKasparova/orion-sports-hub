@@ -2,8 +2,13 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Star, Crown, Zap } from "lucide-react";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 const Packages = () => {
+  const headerAnimation = useScrollAnimation();
+  const packagesAnimation = useStaggeredAnimation(3, 0.2);
+  const ctaAnimation = useScrollAnimation();
+
   const packages = [
     {
       name: "Starter",
@@ -59,7 +64,14 @@ const Packages = () => {
     <section id="packages" className="py-20 bg-gradient-dark">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in">
+        <div 
+          ref={headerAnimation.ref as React.RefObject<HTMLDivElement>}
+          className={`text-center mb-16 transition-all duration-1000 ${
+            headerAnimation.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="text-foreground">Membership </span>
             <span className="text-primary">Packages</span>
@@ -71,16 +83,22 @@ const Packages = () => {
         </div>
 
         {/* Packages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div 
+          ref={packagesAnimation.ref as React.RefObject<HTMLDivElement>}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto"
+        >
           {packages.map((pkg, index) => (
             <Card 
               key={pkg.name}
-              className={`relative group transition-smooth hover:shadow-2xl animate-slide-up ${
+              className={`relative group transition-all duration-700 hover:shadow-2xl ${
                 pkg.popular 
                   ? 'border-primary shadow-glow/30 scale-105' 
                   : 'border-border hover:border-primary/50'
+              } ${
+                packagesAnimation.visibleItems.has(index)
+                  ? 'opacity-100 translate-y-0 scale-100' 
+                  : 'opacity-0 translate-y-10 scale-95'
               }`}
-              style={{ animationDelay: `${index * 0.2}s` }}
             >
               {/* Popular Badge */}
               {pkg.popular && (
@@ -116,8 +134,7 @@ const Packages = () => {
                   {pkg.features.map((feature, featureIndex) => (
                     <li 
                       key={featureIndex} 
-                      className="flex items-center space-x-3 animate-fade-in"
-                      style={{ animationDelay: `${index * 0.2 + featureIndex * 0.1}s` }}
+                      className="flex items-center space-x-3"
                     >
                       <div className="flex-shrink-0 w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center">
                         <Check className="h-3 w-3 text-primary" />
@@ -144,7 +161,14 @@ const Packages = () => {
         </div>
 
         {/* Additional Info */}
-        <div className="text-center mt-16 animate-scale-in">
+        <div 
+          ref={ctaAnimation.ref as React.RefObject<HTMLDivElement>}
+          className={`text-center mt-16 transition-all duration-1000 ${
+            ctaAnimation.isVisible 
+              ? 'opacity-100 translate-y-0 scale-100' 
+              : 'opacity-0 translate-y-10 scale-95'
+          }`}
+        >
           <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-foreground mb-4">
               Need a Custom Package?

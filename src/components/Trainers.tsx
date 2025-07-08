@@ -2,9 +2,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Award, Users } from "lucide-react";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 import trainerHero from "@/assets/trainer-hero.jpg";
 
 const Trainers = () => {
+  const headerAnimation = useScrollAnimation();
+  const trainersAnimation = useStaggeredAnimation(3, 0.3);
+  const ctaAnimation = useScrollAnimation();
+
   const trainers = [
     {
       name: "Alex Petrosyan",
@@ -39,7 +44,14 @@ const Trainers = () => {
     <section id="trainers" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in">
+        <div 
+          ref={headerAnimation.ref as React.RefObject<HTMLDivElement>}
+          className={`text-center mb-16 transition-all duration-1000 ${
+            headerAnimation.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="text-foreground">Expert </span>
             <span className="text-primary">Trainers</span>
@@ -51,12 +63,18 @@ const Trainers = () => {
         </div>
 
         {/* Trainers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div 
+          ref={trainersAnimation.ref as React.RefObject<HTMLDivElement>}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
           {trainers.map((trainer, index) => (
             <Card 
               key={trainer.name}
-              className="group bg-card border-border hover:border-primary/50 transition-smooth hover:shadow-glow/20 hover:shadow-2xl overflow-hidden animate-slide-up"
-              style={{ animationDelay: `${index * 0.2}s` }}
+              className={`group bg-card border-border hover:border-primary/50 transition-all duration-700 hover:shadow-glow/20 hover:shadow-2xl overflow-hidden ${
+                trainersAnimation.visibleItems.has(index)
+                  ? 'opacity-100 translate-y-0 scale-100' 
+                  : 'opacity-0 translate-y-10 scale-95'
+              }`}
             >
               {/* Trainer Image */}
               <div className="relative overflow-hidden">
@@ -112,8 +130,15 @@ const Trainers = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
-          <div className="bg-card border border-border rounded-lg p-8 max-w-2xl mx-auto animate-scale-in">
+        <div 
+          ref={ctaAnimation.ref as React.RefObject<HTMLDivElement>}
+          className={`text-center mt-16 transition-all duration-1000 ${
+            ctaAnimation.isVisible 
+              ? 'opacity-100 translate-y-0 scale-100' 
+              : 'opacity-0 translate-y-10 scale-95'
+          }`}
+        >
+          <div className="bg-card border border-border rounded-lg p-8 max-w-2xl mx-auto">
             <Users className="h-12 w-12 text-primary mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-foreground mb-4">
               Ready to Work with Our Experts?

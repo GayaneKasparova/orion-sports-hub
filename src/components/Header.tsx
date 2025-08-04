@@ -15,6 +15,7 @@ const Header = () => {
     { label: "Orion Club", href: "#about", labelAm: "Օրիոն ակումբ" },
     { label: "Trainers", href: "#trainers", labelAm: "Մարզիչներ" },
     { label: "Packages", href: "#packages", labelAm: "Փաթեթներ" },
+    { label: "Blog", href: "/blog", labelAm: "Բլոգ" },
     { label: "Promotions", href: "#promotions", labelAm: "Ակցիաներ" },
     { label: "Media", href: "#media", labelAm: "Մեդիա" },
     { label: "Contacts", href: "#contacts", labelAm: "Կոնտակտներ" },

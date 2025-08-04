@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, Award, Users } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Star, Award, Users, ChevronRight } from "lucide-react";
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 import trainerHero from "@/assets/trainer-hero.jpg";
 
@@ -52,81 +53,100 @@ const Trainers = () => {
               : 'opacity-0 translate-y-10'
           }`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-foreground">Expert </span>
-            <span className="text-primary">Trainers</span>
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold">
+              <span className="text-foreground">Expert </span>
+              <span className="text-primary">Trainers</span>
+            </h2>
+            <Button variant="outline" className="hidden md:flex">
+              See All <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Our certified trainers bring years of experience and passion to help you 
             achieve your fitness goals safely and effectively.
           </p>
         </div>
 
-        {/* Trainers Grid */}
+        {/* Trainers Carousel */}
         <div 
           ref={trainersAnimation.ref as React.RefObject<HTMLDivElement>}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="opacity-100 translate-y-0"
         >
-          {trainers.map((trainer, index) => (
-            <Card 
-              key={trainer.name}
-              className={`group bg-card border-border hover:border-primary/50 transition-all duration-700 hover:shadow-glow/20 hover:shadow-2xl overflow-hidden ${
-                trainersAnimation.visibleItems.has(index)
-                  ? 'opacity-100 translate-y-0 scale-100' 
-                  : 'opacity-0 translate-y-10 scale-95'
-              }`}
-            >
-              {/* Trainer Image */}
-              <div className="relative overflow-hidden">
-                <img
-                  src={trainer.image}
-                  alt={trainer.name}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-smooth duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-dark opacity-40 group-hover:opacity-20 transition-smooth"></div>
-                
-                {/* Rating Badge */}
-                <div className="absolute top-4 right-4">
-                  <Badge className="bg-primary/20 text-primary border-primary/30 backdrop-blur-sm">
-                    <Star className="h-3 w-3 mr-1 fill-current" />
-                    {trainer.rating}
-                  </Badge>
-                </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {trainers.map((trainer, index) => (
+                <CarouselItem key={trainer.name} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <Card className="group bg-card border-border hover:border-primary/50 transition-all duration-700 hover:shadow-glow/20 hover:shadow-2xl overflow-hidden">
+                    {/* Trainer Image */}
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={trainer.image}
+                        alt={trainer.name}
+                        className="w-full h-64 object-cover group-hover:scale-110 transition-smooth duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-dark opacity-40 group-hover:opacity-20 transition-smooth"></div>
+                      
+                      {/* Rating Badge */}
+                      <div className="absolute top-4 right-4">
+                        <Badge className="bg-primary/20 text-primary border-primary/30 backdrop-blur-sm">
+                          <Star className="h-3 w-3 mr-1 fill-current" />
+                          {trainer.rating}
+                        </Badge>
+                      </div>
 
-                {/* Experience Badge */}
-                <div className="absolute bottom-4 left-4">
-                  <Badge className="bg-accent/20 text-accent-foreground border-accent/30 backdrop-blur-sm">
-                    <Award className="h-3 w-3 mr-1" />
-                    {trainer.experience}
-                  </Badge>
-                </div>
-              </div>
+                      {/* Experience Badge */}
+                      <div className="absolute bottom-4 left-4">
+                        <Badge className="bg-accent/20 text-accent-foreground border-accent/30 backdrop-blur-sm">
+                          <Award className="h-3 w-3 mr-1" />
+                          {trainer.experience}
+                        </Badge>
+                      </div>
+                    </div>
 
-              <CardContent className="p-6">
-                {/* Trainer Info */}
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-primary transition-smooth">
-                    {trainer.name}
-                  </h3>
-                  <p className="text-primary font-semibold mb-2">{trainer.specialization}</p>
-                  <p className="text-muted-foreground text-sm mb-4">{trainer.description}</p>
-                </div>
+                    <CardContent className="p-6">
+                      {/* Trainer Info */}
+                      <div className="mb-4">
+                        <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-primary transition-smooth">
+                          {trainer.name}
+                        </h3>
+                        <p className="text-primary font-semibold mb-2">{trainer.specialization}</p>
+                        <p className="text-muted-foreground text-sm mb-4">{trainer.description}</p>
+                      </div>
 
-                {/* Certifications */}
-                <div className="flex flex-wrap gap-2">
-                  {trainer.certifications.map((cert) => (
-                    <Badge 
-                      key={cert} 
-                      variant="secondary" 
-                      className="text-xs"
-                    >
-                      {cert}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                      {/* Certifications */}
+                      <div className="flex flex-wrap gap-2">
+                        {trainer.certifications.map((cert) => (
+                          <Badge 
+                            key={cert} 
+                            variant="secondary" 
+                            className="text-xs"
+                          >
+                            {cert}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+          
+          {/* Mobile See All Button */}
+          <div className="flex justify-center mt-8 md:hidden">
+            <Button variant="outline">
+              See All Trainers <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         {/* Call to Action */}

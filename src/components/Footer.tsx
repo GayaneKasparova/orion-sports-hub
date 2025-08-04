@@ -1,6 +1,5 @@
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Map from "./Map";
 
 const Footer = () => {
   const contactInfo = [
@@ -100,27 +99,22 @@ const Footer = () => {
           {/* Contact Info */}
           <div className="lg:col-span-2">
             <h3 className="text-lg font-semibold text-foreground mb-6">Contact Information</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-                {contactInfo.map((info) => (
-                  <div key={info.title} className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center mt-1">
-                      <info.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-foreground mb-1 text-sm">{info.title}</h4>
-                      {info.details.map((detail, index) => (
-                        <p key={index} className="text-muted-foreground text-sm">
-                          {detail}
-                        </p>
-                      ))}
-                    </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {contactInfo.map((info) => (
+                <div key={info.title} className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center mt-1">
+                    <info.icon className="h-5 w-5 text-primary" />
                   </div>
-                ))}
-              </div>
-              <div className="w-full">
-                <Map />
-              </div>
+                  <div>
+                    <h4 className="font-medium text-foreground mb-1 text-sm">{info.title}</h4>
+                    {info.details.map((detail, index) => (
+                      <p key={index} className="text-muted-foreground text-sm">
+                        {detail}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
